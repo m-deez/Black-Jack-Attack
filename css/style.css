@@ -1,0 +1,18 @@
+.handDisplay {
+    background-color: rgb(47, 216, 47);
+    height: 250px;
+    width: 100%;
+    border-style: inset;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 20px;
+}
+#deck {
+    background-image: url("https://www.nicepng.com/png/full/121-1216797_card-back-png-download-seasons-playing-cards-magna.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 150px;
+    justify-content: center;
+    align-items: center;
+}
