@@ -26,7 +26,7 @@ async function getDeck(e) { //used API of a deck of cards here.
 
         const url = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`
         const response = await fetch(url);
-        const card = await response.json;
+        const card = await response.json();
         
         console.log(card);
     }
