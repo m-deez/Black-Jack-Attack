@@ -7,6 +7,7 @@
     border-width: 2px;
     border-radius: 20px;
 }
+
 #deck {
     background-image: url("https://www.nicepng.com/png/full/121-1216797_card-back-png-download-seasons-playing-cards-magna.png");
     background-size: contain;
@@ -15,4 +16,9 @@
     width: 150px;
     justify-content: center;
     align-items: center;
+}
+
+img {
+    max-height: 220px;
+    padding: 10px;
 }
