@@ -17,12 +17,16 @@
     <body>
         <h1>Black Jack Attack</h1>
         <h2>Dealer Hand</h2><p class="hpValue" id="dealer-hp-value"></p>
-        <div class="handDisplay" id="dealerDisplay"></div>
+        <div class="handDisplay" id="dealerDisplay">
+            <p id="dealer-bust"></p>
+        </div>
         <div id="deck"></div>
         <button id="hit">Hit</button> 
         <button id="stand">Stand</button> 
-        <button id="start-next-restart"></button> 
-        <div class="handDisplay" id="playerDisplay"></div>
+        <button id="next-hand">Next Hand</button> 
+        <div class="handDisplay" id="playerDisplay">
+            <p id="player-bust"></p>
+        </div>
         <h2>Your Hand</h2><p class="hpValue" id="player-hp-value"></p>
     </body>
 </html>

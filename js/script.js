@@ -6,9 +6,6 @@ const player = {
 const dealer = {
     hp: 50,
 }
-//declair "start" butrton
-$("#start-next-restart").html("Start");
-
 
 async function getDeck(e) { //used API of a deck of cards here. 
     e.preventDefault();
@@ -17,44 +14,106 @@ async function getDeck(e) { //used API of a deck of cards here.
     const response = await fetch(url);
     const deck = await response.json();
 
-    $("#start-next-restart").html("");
-
     let deckID = deck.deck_id
-
-    async function hit(e) {
-        e.preventDefault();
+    let handValue = 0; 
+    let dealerHandValue = 0;
+    
+    async function hit() { //used for the player to draw a card.
 
         const url = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`
         const response = await fetch(url);
         const card = await response.json();
         
+        $("<img />").attr("src", card.cards[0].image).appendTo($("#playerDisplay"));
         console.log(card);
+
+        let cardValue = card.cards[0].value;
+
+        if (cardValue === "JACK" || cardValue === "QUEEN" || cardValue === "KING") {
+            handValue += 10;
+        } else if (cardValue === "ACE" && handValue < 11) {
+            handValue += 11;
+        } else if (cardValue === "ACE" && handValue > 11) {
+            handValue += 1;
+        } else {
+            handValue += parseInt(cardValue, 10);
+        }
+        console.log(handValue);
+        
+        if (handValue > 21) {
+            $("#player-bust").html("BUST!");
+            handValue = 0;
+            stand();
+        }
     }
 
     $("#hit").on("click", hit);
 
+    async function dealerHit() { //used for the dealer to draw a card.
+
+        const url = `https://deckofcardsapi.com/api/deck/${deckID}/draw/?count=1`
+        const response = await fetch(url);
+        const dealerCard = await response.json();
+        
+        $("<img />").attr("src", dealerCard.cards[0].image).appendTo($("#dealerDisplay"));
+
+        let dealerCardValue = dealerCard.cards[0].value;
+
+        if (dealerCardValue === "JACK" || dealerCardValue === "QUEEN" || dealerCardValue === "KING") {
+            dealerHandValue += 10;
+        } else if (dealerCardValue === "ACE" && handValue < 11) {
+            dealerHandValue += 11;
+        } else if (dealerCardValue === "ACE" && handValue > 11) {
+            dealerHandValue += 1;
+        } else {
+            dealerHandValue += parseInt(dealerCardValue, 10);
+        }
+        console.log(dealerHandValue)
+
+        if (dealerHandValue > 21) {
+            $("#dealer-bust").html("BUST!");
+            dealerHandValue = 0;
+            stand();
+        }
+    }
+
+    $("#stand").on("click", stand);
+
+    async function nextHand() {
+        const url = `https://deckofcardsapi.com/api/deck/${deckID}/shuffle/`
+        const response = await fetch(url);
+        const data = await response.json();
+        $("#playerDisplay").html("");
+        $("#dealerDisplay").html("");
+        handValue = 0;
+        dealerHandValue = 0;
+        hit();
+        hit();
+        dealerHit();
+        dealerHit();
+        console.log(data);
+    }
+
+    $("#next-hand").on("click", nextHand);
+
+    hit();
+    hit();
+    dealerHit();
+    dealerHit();
+
+    function stand() {
+        if (handValue < dealerHandValue) {
+            player.hp - (dealerHandValue - handValue);
+        } else if (dealerHandValue < handValue && dealerHandValue < 16) {
+            dealerHit();
+        } else {
+            dealer.hp - (handValue - dealerHandValue); 
+        }
+    }
+
+    $("#stand").on("click", stand);
+
     console.log(deck);
 }
 
- $("#start-next-restart").on("click", getDeck)
-
-
-
-
-// declaire the whole deck in an array
-// let deck = [
-//     "AS", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS",
-//     "AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH",
-//     "AC", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC",
-//     "AD", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD",
-// ]
-//make a hit, stand, and restart function.
-// function hit() {
-
-//     let cardDrawn = Math.floor(Math.random() * deck.length);
-//     $("#playerDisplay").text(deck[cardDrawn]);
-//     deck.splice(cardDrawn, 1);
-    
-//     console.log(cardDrawn);
-//     console.log(deck[cardDrawn]);
-// }
+$("#deck").on("click", getDeck);
