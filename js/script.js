@@ -37,7 +37,7 @@ async function getDeck(e) { //used API of a deck of cards here.
             handValue += 10;
         } else if (cardValue === "ACE" && handValue < 11) {
             handValue += 11;
-        } else if (cardValue === "ACE" && handValue > 11) {
+        } else if (cardValue === "ACE" && handValue >= 11) {
             handValue += 1;
         } else {
             handValue += parseInt(cardValue, 10);
@@ -69,7 +69,7 @@ async function getDeck(e) { //used API of a deck of cards here.
             dealerHandValue += 10;
         } else if (dealerCardValue === "ACE" && dealerHandValue < 11) {
             dealerHandValue += 11;
-        } else if (dealerCardValue === "ACE" && dealerHandValue > 11) {
+        } else if (dealerCardValue === "ACE" && dealerHandValue >= 11) {
             dealerHandValue += 1;
         } else {
             dealerHandValue += parseInt(dealerCardValue, 10);
@@ -119,12 +119,13 @@ async function getDeck(e) { //used API of a deck of cards here.
             player.hp - (dealerHandValue - handValue);
             $("#next-hand").show(100);
         } else if (dealerHandValue < handValue && dealerHandValue < 16) {
-            dealerHit();
             $("#stand").show(100);
             $("#next-hand").hide(100);
+            dealerHit();
         } else if (handValue = dealerHandValue) {
-            
-        } else {
+            $("#dealer-info").html("This round is a tie");
+            $("#next-hand").show(100);
+        } else if (handValue > dealerHandValue){
             $("#player-info").html("You have won this round. The Dealer takes " + (handValue - dealerHandValue) + " damage!");
             dealer.hp - (handValue - dealerHandValue); 
             $("#next-hand").show(100);
