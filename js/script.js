@@ -42,7 +42,6 @@ async function getDeck(e) { //used API of a deck of cards here.
         } else {
             handValue += parseInt(cardValue, 10);
         }
-        console.log(handValue);
         // sets the displayed value of the player's current hand. 
         $("#player-hand-value").html("Player Hand: " + handValue);
         // defines the bust action. 
@@ -74,13 +73,12 @@ async function getDeck(e) { //used API of a deck of cards here.
         } else {
             dealerHandValue += parseInt(dealerCardValue, 10);
         }
-        console.log(dealerHandValue)
 
         $("#dealer-hand-value").html("Dealer Hand: " + dealerHandValue);
 
         if (dealerHandValue > 21) {
             $("#dealer-bust").html("BUST!");
-            dealerHandValue = 0;
+            dealerBust();
         }
     }
 
@@ -100,7 +98,6 @@ async function getDeck(e) { //used API of a deck of cards here.
         hit();
         dealerHit();
         dealerHit();
-        console.log(data);
     }
 
     $("#next-hand").on("click", nextHand);
@@ -122,21 +119,25 @@ async function getDeck(e) { //used API of a deck of cards here.
             $("#stand").show(100);
             $("#next-hand").hide(100);
             dealerHit();
-        } else if (handValue = dealerHandValue) {
-            $("#dealer-info").html("This round is a tie");
-            $("#next-hand").show(100);
-        } else if (handValue > dealerHandValue){
+        } else if (handValue > dealerHandValue) {
             $("#player-info").html("You have won this round. The Dealer takes " + (handValue - dealerHandValue) + " damage!");
             dealer.hp - (handValue - dealerHandValue); 
             $("#next-hand").show(100);
+        } else {
+            $("#dealer-info").html("This round is a tie");
+            $("#next-hand").show(100);
         }
-        console.log(player.hp);
-        console.log(dealer.hp);
     }
-
     $("#stand").on("click", stand);
 
-    console.log(deck);
+    function dealerBust() {
+        dealerHandValue = 0;
+        $("#hit").hide(100);
+        $("#stand").hide(100);
+        $("#next-hand").show(100);
+        $("#player-info").html("You have won this round. The Dealer takes " + (handValue - dealerHandValue) + " damage!");
+        dealer.hp - (handValue - dealerHandValue);
+    }
 }
 
 $("#deck").on("click", getDeck);
