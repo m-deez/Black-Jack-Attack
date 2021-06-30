@@ -5,7 +5,7 @@
 
  If you arent sure how Black Jack works:
 
- The game starts by you drawing 2 cards and adding their values together.
+ The game starts by you clicking on the deck, the game will draw 2 cards and add their values together.
  The values of cards are the number thats on the card.
  Jack, Queen, and King are all worth 10.
  An Ace is worth 11 points if the other cards in you hand total 10 or less. 
@@ -22,4 +22,4 @@ For example, if you have a hand value of 20 and the Dealer has a hand value of 1
 
 Both the player and Dealer start at 50 hp and the first to 0 hp loses the game.
 
-Also! Side note. The API I used will sometimes fail on their side, and it will not draw a card from the deck. I made the game in a way where you can go to the next hand with no repercussions when that happens. Or you can continue with the current hand with more limited information. 
+Also! Side note. The API I used will sometimes fail on their side, and it will not draw a card from the deck. I made the game in a way where you can go to the next hand with no repercussions when that happens. If you just continue to play the hand things will get... wacky. 
