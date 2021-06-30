@@ -14,11 +14,15 @@
     background-repeat: no-repeat;
     height: 200px;
     width: 150px;
-    justify-content: center;
-    align-items: center;
+    margin-top: 15px;
 }
 
 img {
     max-height: 220px;
     padding: 10px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
 }
