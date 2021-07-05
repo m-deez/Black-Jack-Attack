@@ -1,12 +1,4 @@
-//make player object
-let player = {
-    hp: 50,
-}
-//make a dealer oject
-let dealer = {
-    hp: 50,
-}
-
+// Everything needs to be called and ran through this function. 
 async function getDeck(e) { //used API of a deck of cards here. 
     e.preventDefault();
 
@@ -14,13 +6,18 @@ async function getDeck(e) { //used API of a deck of cards here.
     const response = await fetch(url);
     const deck = await response.json();
 
+    let playerHP = 50;
+    let dealerHP = 50;
+
     let deckID = deck.deck_id
     let handValue = 0; 
     let dealerHandValue = 0;
-    // set dealer HP value and text for the display. 
-    $("#dealer-hp-value").html("Dealer HP: " + dealer.hp);
-    // set player HP value and text for the display. 
-    $("#player-hp-value").html("Player HP: " + player.hp);
+
+    // if (deckID !== "") {
+    //     return;
+    // }
+
+
 
     async function hit() { //used for the player to draw a card.
 
@@ -112,7 +109,7 @@ async function getDeck(e) { //used API of a deck of cards here.
 
         if (handValue < dealerHandValue) {
             $("#dealer-info").html("The dealer has won this round. You have taken " + (dealerHandValue - handValue) + " damage!");
-            player.hp - (dealerHandValue - handValue);
+            playerHP - (dealerHandValue - handValue);
             $("#next-hand").show(1);
         } else if (dealerHandValue < handValue && dealerHandValue < 16) {
             $("#stand").show(1);
@@ -120,7 +117,7 @@ async function getDeck(e) { //used API of a deck of cards here.
             dealerHit();
         } else if (handValue > dealerHandValue) {
             $("#player-info").html("You have won this round. The Dealer takes " + (handValue - dealerHandValue) + " damage!");
-            dealer.hp - (handValue - dealerHandValue); 
+            dealerHP - (handValue - dealerHandValue); 
             $("#next-hand").show(1);
         } else {
             $("#dealer-info").html("This round is a tie");
@@ -136,7 +133,7 @@ async function getDeck(e) { //used API of a deck of cards here.
         $("#next-hand").show(1);
         $("#bust").html("The Dealer has BUST!")
         $("#player-info").html("You have won this round. The Dealer takes " + (handValue - dealerHandValue) + " damage!");
-        dealer.hp - (handValue - dealerHandValue);
+        dealerHP - (handValue - dealerHandValue);
     }
 
     function playerBust() {
@@ -145,8 +142,14 @@ async function getDeck(e) { //used API of a deck of cards here.
         $("#next-hand").show(1);
         $("#bust").html("You have BUST!")
         $("#dealer-info").html("The Dealer has won this round. You take " + (dealerHandValue - handValue) + " damage!");
-        player.hp - (dealerHandValue - handValue);
+        playerHP - (dealerHandValue - handValue);
     }
+    
+    // set dealer HP value and text for the display. 
+    $("#dealer-hp-value").html("Dealer HP: " + dealerHP);
+    // set player HP value and text for the display. 
+    $("#player-hp-value").html("Player HP: " + playerHP);
+
 }
 
 $("#deck").on("click", getDeck);
